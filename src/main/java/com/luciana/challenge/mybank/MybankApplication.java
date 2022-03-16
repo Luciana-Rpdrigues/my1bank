@@ -17,7 +17,7 @@ public class MybankApplication {
 		BillController cc = new CurrentAccountController(luciana);
 		BillController cp = new SavingsAccountController(luciana);
 
-		cc.deposit(500);
+		cc.deposit(5000);
 
 		cc.transfer(100, cp);
 		cp.transfer(30, cc);
