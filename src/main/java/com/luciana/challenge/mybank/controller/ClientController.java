@@ -1,11 +1,13 @@
 package com.luciana.challenge.mybank.controller;
 
 import com.luciana.challenge.mybank.dto.request.ClientDTO;
-import com.luciana.challenge.mybank.dto.response.MessageResponseDTO;
-import com.luciana.challenge.mybank.exception.ClientNofFoundException;
+import com.luciana.challenge.mybank.dto.response.ClientMessageResponseDTO;
+import com.luciana.challenge.mybank.exception.ClientAlreadyRegisteredException;
+import com.luciana.challenge.mybank.exception.ClientNotFoundException;
 import com.luciana.challenge.mybank.service.ClientService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +16,9 @@ import java.util.List;
 
 @Data
 @RestController
-@RequestMapping
-@AllArgsConstructor
-public class ClientController {
+@RequestMapping(value = "/api/v1/banks")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
+public class ClientController implements ClientControllerDocs {
 
     private ClientService clientService;
 
@@ -26,8 +28,18 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageResponseDTO create(@RequestBody @Valid ClientDTO clientDTO) {
+    public ClientDTO createClient(@RequestBody @Valid ClientDTO clientDTO) throws ClientAlreadyRegisteredException {
         return clientService.createClient(clientDTO);
+    }
+
+    @Override
+    public ClientDTO findByName(String name) throws ClientNotFoundException {
+        return null;
+    }
+
+    @Override
+    public List<ClientDTO> listClient() {
+        return null;
     }
 
     @GetMapping
@@ -36,19 +48,18 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public ClientDTO findById(@PathVariable Long id) throws ClientNofFoundException {
+    public ClientDTO findById(@PathVariable Long id) throws ClientNotFoundException {
         return clientService.findById(id);
     }
 
     @GetMapping("/{id}")
-    public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody ClientDTO clientDTO) throws ClientNofFoundException {
-        return clientService.updateById(id, clientDTO);
+    public ClientMessageResponseDTO updateById(@PathVariable Long id, @RequestBody ClientDTO clientDTO) throws ClientNotFoundException {
+        return (ClientMessageResponseDTO) clientService.updateById(id, clientDTO);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(Long id) throws ClientNofFoundException {
+    public void deleteById(Long id) throws ClientNotFoundException {
         clientService.delete(id);
     }
-
 }

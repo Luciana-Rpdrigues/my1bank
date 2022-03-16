@@ -3,8 +3,8 @@ package com.luciana.challenge.mybank.service;
 import com.luciana.challenge.mybank.contact_of_customer.Client;
 import com.luciana.challenge.mybank.dto.mapper.ClientMapper;
 import com.luciana.challenge.mybank.dto.request.ClientDTO;
-import com.luciana.challenge.mybank.dto.response.MessageResponseDTO;
-import com.luciana.challenge.mybank.exception.ClientNofFoundException;
+import com.luciana.challenge.mybank.dto.response.ClientMessageResponseDTO;
+import com.luciana.challenge.mybank.exception.ClientNotFoundException;
 import com.luciana.challenge.mybank.repository.ClientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class ClientService {
     private ClientRepository clientRepository;
     private final ClientMapper clientMapper = ClientMapper.INSTANCE;
 
-    public MessageResponseDTO createClient(ClientDTO clientDTO) {
+    public ClientDTO createClient(ClientDTO clientDTO) {
         Client clientToSave = clientMapper.toModel(clientDTO);
 
         Client savedClient = clientRepository.save(clientToSave);
@@ -34,18 +34,18 @@ public class ClientService {
                 .collect(Collectors.toList());
     }
 
-    public ClientDTO findById(Long id) throws ClientNofFoundException {
+    public ClientDTO findById(Long id) throws ClientNotFoundException {
         Client client = verifyExixts(id);
 
         return clientMapper.toDTO(client);
     }
 
-    public void delete(Long id) throws ClientNofFoundException {
+    public void delete(Long id) throws ClientNotFoundException {
         verifyExixts(id);
         clientRepository.deleteById(id);
     }
 
-    public MessageResponseDTO updateById(Long id, ClientDTO clientDTO) throws ClientNofFoundException {
+    public ClientDTO updateById(Long id, ClientDTO clientDTO) throws ClientNotFoundException {
         verifyExixts(id);
 
         Client clientToUpdate = clientMapper.toModel(clientDTO);
@@ -54,13 +54,13 @@ public class ClientService {
         return createMessageResponse(updatedClient.getId(), "Updated client with ID ");
     }
 
-    private Client verifyExixts(Long id) throws ClientNofFoundException {
+    private Client verifyExixts(Long id) throws ClientNotFoundException {
         return clientRepository.findById(id)
-                .orElseThrow(() -> new ClientNofFoundException(id));
+                .orElseThrow(() -> new ClientNotFoundException(id));
     }
 
-    private MessageResponseDTO createMessageResponse(Long id, String message) {
-        return MessageResponseDTO
+    private ClientDTO createMessageResponse(Long id, String message) {
+        return ClientMessageResponseDTO
                 .builder()
                 .message(message + id)
                 .build();

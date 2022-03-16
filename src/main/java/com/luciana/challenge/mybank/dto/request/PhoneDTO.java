@@ -12,16 +12,17 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Data
-@Builder
 @AllArgsConstructor
-@NoArgsConstructor
 public class PhoneDTO {
 
+    @Builder.Default
     private Long id;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     private PhoneType type;
 
+    @Builder.Default
     @NotEmpty
     @Size(min = 13, max = 14)
     private String number;
