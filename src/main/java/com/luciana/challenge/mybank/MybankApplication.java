@@ -25,5 +25,4 @@ public class MybankApplication {
 		cc.printExtract();
 		cp.printExtract();
 	}
-
 }
