@@ -1,9 +1,11 @@
 package com.luciana.challenge.mybank.controller;
 
+import com.luciana.challenge.mybank.dto.mapper.BankMapper;
 import com.luciana.challenge.mybank.dto.request.BankDTO;
 import com.luciana.challenge.mybank.dto.response.BankMessageResponseDTO;
 import com.luciana.challenge.mybank.exception.BankAlreadyRegisteredException;
 import com.luciana.challenge.mybank.exception.BankNotFoundException;
+import com.luciana.challenge.mybank.repository.BankRepository;
 import com.luciana.challenge.mybank.service.BankService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,11 +21,14 @@ import java.util.List;
 @Data
 @Builder
 @RestController
-@RequestMapping(value = "/api/v1/banks")
+@RequestMapping("/api/v1/banks")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class BankController extends BankControllerDocs {
 
     private BankService bankService;
+
+    private final BankRepository beerRepository;
+    private final BankMapper beerMapper = BankMapper.INSTANCE;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

@@ -1,9 +1,8 @@
 package com.luciana.challenge.mybank.service;
 
-import com.luciana.challenge.mybank.contact_of_customer.Client;
 import com.luciana.challenge.mybank.dto.mapper.ClientMapper;
 import com.luciana.challenge.mybank.dto.request.ClientDTO;
-import com.luciana.challenge.mybank.dto.response.ClientMessageResponseDTO;
+import com.luciana.challenge.mybank.entity.Client;
 import com.luciana.challenge.mybank.exception.ClientNotFoundException;
 import com.luciana.challenge.mybank.repository.ClientRepository;
 import lombok.AllArgsConstructor;
@@ -22,9 +21,8 @@ public class ClientService {
 
     public ClientDTO createClient(ClientDTO clientDTO) {
         Client clientToSave = clientMapper.toModel(clientDTO);
-
         Client savedClient = clientRepository.save(clientToSave);
-        return createMessageResponse(savedClient.getId(), "Create client with ID " +  savedClient);
+        return clientMapper.toDTO(savedClient);
     }
 
     public List<ClientDTO> listAll() {
@@ -40,7 +38,7 @@ public class ClientService {
         return clientMapper.toDTO(client);
     }
 
-    public void delete(Long id) throws ClientNotFoundException {
+    public void deleteById(Long id) throws ClientNotFoundException {
         verifyExixts(id);
         clientRepository.deleteById(id);
     }
@@ -51,7 +49,7 @@ public class ClientService {
         Client clientToUpdate = clientMapper.toModel(clientDTO);
 
         Client updatedClient = clientRepository.save(clientToUpdate);
-        return createMessageResponse(updatedClient.getId(), "Updated client with ID ");
+        return clientDTO;
     }
 
     private Client verifyExixts(Long id) throws ClientNotFoundException {
@@ -59,10 +57,7 @@ public class ClientService {
                 .orElseThrow(() -> new ClientNotFoundException(id));
     }
 
-    private ClientDTO createMessageResponse(Long id, String message) {
-        return ClientMessageResponseDTO
-                .builder()
-                .message(message + id)
-                .build();
+    public Object findByName(String name) {
+        return null;
     }
 }

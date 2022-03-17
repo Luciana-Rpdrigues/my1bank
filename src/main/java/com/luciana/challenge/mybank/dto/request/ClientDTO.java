@@ -1,9 +1,6 @@
 package com.luciana.challenge.mybank.dto.request;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.luciana.challenge.mybank.enums.PhoneType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,10 +10,9 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
-
-import static lombok.Builder.*;
 
 @Data
 @Builder
@@ -24,47 +20,29 @@ import static lombok.Builder.*;
 @NoArgsConstructor
 public class ClientDTO {
 
-    @Default
+    @NotNull
+    @NotEmpty
     private Long id;
 
-    @Default
+    @NotNull
     @NotEmpty
-    @Size(min = 5, max = 100)
-    private String firstName = "Daniel";
+    @Size(min = 10, max = 100)
+    private String name;
 
-    @Default
-    @NotEmpty
-    @Size(min = 2, max = 100)
-    private String lastName = "Morais";
-
-    @Default
+    @NotNull
     @NotEmpty
     @CPF
-    private String cpf = "999.555.222.11";;
+    @Size(max = 11)
+    private String cpf;
 
-    @Default
+    @NotNull
     @NotEmpty
     @Valid
     private List<PhoneDTO> phone = getPhone();
 
-    public ClientDTO toClientDTO(){
-        return new ClientDTO(
-                id,
-                firstName,
-                lastName,
-                cpf,
-                phone);
-    }
-
-    public static String asJsonString(ClientDTO bookDTO) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-            objectMapper.registerModule(new JavaTimeModule());
-            return objectMapper.writeValueAsString(bookDTO);
-        }catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public ClientDTO(Long id, String name, String cpf, PhoneType phones) {
     }
 }
+
+
+

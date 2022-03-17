@@ -1,4 +1,4 @@
-package com.luciana.challenge.mybank.contact_of_customer;
+package com.luciana.challenge.mybank.builder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,16 +13,19 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Phone {
+public class PhoneDTOBuilder {
 
     @Id
+    @Builder.Default
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id = 2L;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PhoneType type = PhoneType.MOBILE;
 
+    @Builder.Default
     @Column(nullable = false)
     private String number = "(61)98888-9999";
 }

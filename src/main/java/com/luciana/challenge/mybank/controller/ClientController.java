@@ -16,7 +16,7 @@ import java.util.List;
 
 @Data
 @RestController
-@RequestMapping(value = "/api/v1/banks")
+@RequestMapping("/api/v1/banks")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class ClientController implements ClientControllerDocs {
 
@@ -60,6 +60,6 @@ public class ClientController implements ClientControllerDocs {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(Long id) throws ClientNotFoundException {
-        clientService.delete(id);
+        clientService.deleteById(id);
     }
 }

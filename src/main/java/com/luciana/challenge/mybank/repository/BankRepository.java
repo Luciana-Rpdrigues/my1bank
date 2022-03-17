@@ -1,6 +1,6 @@
 package com.luciana.challenge.mybank.repository;
 
-import com.luciana.challenge.mybank.contact_of_customer.Bank;
+import com.luciana.challenge.mybank.entity.Bank;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

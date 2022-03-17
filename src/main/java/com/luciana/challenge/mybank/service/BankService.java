@@ -1,9 +1,9 @@
 package com.luciana.challenge.mybank.service;
 
-import com.luciana.challenge.mybank.contact_of_customer.Bank;
 import com.luciana.challenge.mybank.dto.mapper.BankMapper;
 import com.luciana.challenge.mybank.dto.request.BankDTO;
 import com.luciana.challenge.mybank.dto.response.BankMessageResponseDTO;
+import com.luciana.challenge.mybank.entity.Bank;
 import com.luciana.challenge.mybank.exception.BankAlreadyRegisteredException;
 import com.luciana.challenge.mybank.exception.BankNotFoundException;
 import com.luciana.challenge.mybank.repository.BankRepository;
@@ -21,7 +21,6 @@ public class BankService {
 
     private final BankRepository bankRepository;
     private final BankMapper bankMapper = BankMapper.INSTANCE;
-    private BankDTO bank;
 
     public BankDTO createBank(BankDTO bankDTO) throws BankAlreadyRegisteredException {
         verifyIfIsAlreadyRegistered(bankDTO.getName());
@@ -31,9 +30,9 @@ public class BankService {
     }
 
     public BankDTO findByName(String name) throws BankNotFoundException {
-        Bank foundBeer = bankRepository.findByName(name)
+        Bank foundBank = bankRepository.findByName(name)
                 .orElseThrow(() -> new BankNotFoundException(name));
-        return bankMapper.toDTO(foundBeer);
+        return bankMapper.toDTO(foundBank);
     }
 
     public List<Object> listAll() {
@@ -49,10 +48,10 @@ public class BankService {
         return bankMapper.toDTO(bank);
     }
 
-    public BankMessageResponseDTO updateById(Long id, BankDTO clientDTO) throws BankNotFoundException {
+    public BankMessageResponseDTO updateById(Long id, BankDTO bankDTO) throws BankNotFoundException {
         verifyExixts(id);
 
-        Bank bankToUpdate = bankMapper.toModel(bank);
+        Bank bankToUpdate = bankMapper.toModel(bankDTO);
 
         Bank updatedBank = bankRepository.save(bankToUpdate);
         return createMessageResponse(updatedBank.getId(), "Updated bank with ID ");
@@ -69,10 +68,7 @@ public class BankService {
     }
 
     private BankMessageResponseDTO createMessageResponse(Long id, String message) {
-        return BankMessageResponseDTO
-                .builder()
-                .message(message + id)
-                .build();
+        return null;
     }
     private void verifyIfIsAlreadyRegistered(String name) throws BankAlreadyRegisteredException {
         Optional<Bank> optSavedBank = bankRepository.findByName(name);
@@ -81,4 +77,7 @@ public class BankService {
         }
     }
 
+    public void deleteById(Long validBankId) {
+
+    }
 }

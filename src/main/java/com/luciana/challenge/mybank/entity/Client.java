@@ -1,18 +1,18 @@
-package com.luciana.challenge.mybank.contact_of_customer;
+package com.luciana.challenge.mybank.entity;
 
+import com.luciana.challenge.mybank.enums.PhoneType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
-@Entity
+
 @Data
-@Builder
-@AllArgsConstructor
+@Entity
 @NoArgsConstructor
+@AllArgsConstructor
 public class Client {
 
     @Id
@@ -20,14 +20,12 @@ public class Client {
     private Long id;
 
     @Column(nullable = false)
-    private String firstName;
-
-    @Column(nullable = false)
-    private String lastName;
+    private String name;
 
     @Column(nullable = false, unique = true)
     private String cpf;
 
+    @Column(nullable = false)
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    private List<Phone> phones;
+    private PhoneType phones;
 }

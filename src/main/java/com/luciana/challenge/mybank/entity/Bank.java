@@ -1,21 +1,18 @@
-package com.luciana.challenge.mybank.contact_of_customer;
+package com.luciana.challenge.mybank.entity;
 
-
+import com.luciana.challenge.mybank.builder.ClientDTOBuilder;
 import com.luciana.challenge.mybank.controller.BillController;
-import com.luciana.challenge.mybank.controller.ClientController;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
 @Data
-@Builder
-@AllArgsConstructor
+@Entity
 @NoArgsConstructor
+@AllArgsConstructor
 public class Bank {
 
     @Id
@@ -25,9 +22,11 @@ public class Bank {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private List<BillController> bills;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
-    private List<Client> clients;
+    @Column(nullable = true)
+    private List<ClientDTOBuilder> clients;
+
+
 }

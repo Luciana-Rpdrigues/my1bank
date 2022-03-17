@@ -1,7 +1,7 @@
 package com.luciana.challenge.mybank.dto.mapper;
 
-import com.luciana.challenge.mybank.contact_of_customer.Bank;
 import com.luciana.challenge.mybank.dto.request.BankDTO;
+import com.luciana.challenge.mybank.entity.Bank;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
